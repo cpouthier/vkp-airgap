@@ -11,19 +11,7 @@ VKP is the pod that Veeam Backup & Replication v13 uses to back up and restore O
 
 ## Methodology
 
-```
-   CONNECTED SIDE                 AIR GAP                 DISCONNECTED SIDE
- ┌──────────────────┐                              ┌──────────────────────────┐
- │ charts.veeam.com │                              │ bastion (oc, helm,       │
- │ gcr.io/kasten-   │                              │ podman or docker)        │
- │ images           │                              │                          │
- └────────┬─────────┘                              │  2. push                 │
-          │ 1. download                            │   load → tag → push ─────┼──► private registry
- ┌────────▼─────────┐   USB key, file transfer,    │                          │    <registry>/vkp:<tag>
- │ vkp-airgap-      │ ───────────────────────────► │  3. install              │    <registry>/vkp-datamover:<tag>
- │ bundle/          │   data diode...              │   helm install ──────────┼──► OpenShift cluster
- └──────────────────┘                              └──────────────────────────┘    (pulls from the registry)
-```
+![VKP air-gapped deployment architecture](doc/architecture.png)
 
 ### Which images, which tag
 
